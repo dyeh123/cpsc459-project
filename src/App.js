@@ -7,6 +7,7 @@ import { Container, Typography, Paper, Card, CardContent, CardActions, Grid } fr
 import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
 import { CardMembership } from '@mui/icons-material';
+import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
 
 const useStyles = makeStyles({
   textField: {
@@ -25,33 +26,29 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [currentLabel, setLabel] = useState("");
+  const [text, setText] = useState("");
   const [labels, setLabels] = useState(["Someone is happy", "Someone is sad"]);
   let colors = ['green', 'aqua', 'pink', 'yellow', 'red', 'orange', 'gray'];
   const saveCurrentLabel = newLabel => {
     setLabel(newLabel.target.value);
   }
 
+  const saveCurrentText = newText => {
+    setText(newText.target.value);
+  }
+
   async function getScores() {
-    let data = {"text": "Great taffy at a great price.  There was a wide assortment of yummy taffy.  Delivery was very quick.  If your a taffy lover, this is a deal.",
-    "labels": [
-      "Somebody is content.",
-      "Somebody is displeased.",
-      "Taffy is mentioned.",
-      "Someone got a good deal",
-      "Good food is mentioned",
-      "Someone is mad",
-      "Someone hates something",
-      "Someone talks about popcorn."
-    ]};
+    let data = {"text": text,
+    "labels": labels};
     const response = await fetch("https://flask.thomaswoodside.com/classify", {
       method: 'POST',
+      credentials: 'same-origin',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
-    console.log(response.json());
     return response.json();
   }
 
@@ -69,7 +66,13 @@ function App() {
                 required
                 rows={23}
                 maxRows={Infinity}
+                onChange={saveCurrentText}
               />
+              {/* <HighlightWithinTextarea
+
+                highlight={'abc'}
+               
+              /> */}
             </CardContent>
           
           </Card>
