@@ -49,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div class="flexbox-container">
+        <div className="flexbox-container">
           <Card style={{flex:1, margin:100, width: 200, height: 600, overflowY: 'scroll'}}>
             <CardContent style={{}}>
               <HighlightWithinTextarea
@@ -82,6 +82,7 @@ function App() {
                   variant="contained" 
                   sx={{borderRadius: 30}}
                   onClick={() => setLabels(labels.filter(item => item !== elem))}
+                  key={elem}
                   >
                   {elem}
                   </Button>
