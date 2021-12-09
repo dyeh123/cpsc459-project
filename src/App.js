@@ -9,32 +9,27 @@ import CloseIcon from '@mui/icons-material/Close';
 import { CardMembership } from '@mui/icons-material';
 import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
 
-const useStyles = makeStyles({
-  textField: {
-      width: '90%',
-      marginLeft: 'auto',
-      marginRight: 'auto',            
-      paddingBottom: 0,
-      marginTop: 0,
-      fontWeight: 500
-  },
-  input: {
-      color: 'white'
-  }
-});
-
 function App() {
-  const classes = useStyles();
   const [currentLabel, setLabel] = useState("");
-  const [text, setText] = useState("");
+  const [text, setText] = useState("Enter text here");
   const [labels, setLabels] = useState(["Someone is happy", "Someone is sad"]);
-  let colors = ['green', 'aqua', 'pink', 'yellow', 'red', 'orange', 'gray'];
+  const [highlights, setHighlights] = useState([]);
+  let colors = ['yellow', 'aqua', 'pink', 'green', 'red', 'orange', 'gray'];
+
   const saveCurrentLabel = newLabel => {
     setLabel(newLabel.target.value);
   }
 
   const saveCurrentText = newText => {
-    setText(newText.target.value);
+    setText(newText);
+  }
+
+  const processData = data => {
+    for (let i = 0; i < labels.length; i++) {
+      let start = data[labels[i]][0][2][0];
+      let end = data[labels[i]][0][2][1];
+      setHighlights(oldArray => [...oldArray, {highlight: [start, end], className: 'blue'}]);
+    }
   }
 
   async function getScores() {
@@ -56,38 +51,16 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div class="flexbox-container">
-          <Card style={{flex:1, margin:100}}>
-            <CardContent>
-              <TextField
-                id="text-entry"
-                placeholder="Enter text here"
-                multiline
-                fullWidth
-                required
-                rows={23}
-                maxRows={Infinity}
-                onChange={saveCurrentText}
+          <Card style={{flex:1, margin:100, width: 200, height: 600}}>
+            <CardContent style={{overflowY: 'scroll', maxHeight: 600}}>
+              <HighlightWithinTextarea
+                value={text}
+                highlight={highlights}
+                onChange= {saveCurrentText}
               />
-              {/* <HighlightWithinTextarea
-
-                highlight={'abc'}
-               
-              /> */}
             </CardContent>
-          
           </Card>
-          {/* <Container style={{flex: 1, marginTop: 100}}>
-            <TextField
-              id="text-entry"
-              placeholder="Enter text here"
-              multiline
-              fullWidth
-              required
-              rows={23}
-              maxRows={Infinity}
-              //style = {{width: 1000}}
-            />
-          </Container> */}
+
           <Card style={{flex:1, margin: 100, width: 1000}}>
             
             <CardActions>
@@ -119,7 +92,7 @@ function App() {
               </Container>
               <Button
               variant="contained"
-              onClick={() => getScores().then(data => {console.log(data)})}
+              onClick={() => getScores().then(data => {console.log(data); processData(data);})}
               >
               Run
               </Button>
