@@ -6,12 +6,11 @@ import { makeStyles } from '@mui/styles';
 import { Container, Typography, Paper, Card, CardContent, CardActions, Grid } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
-import { CardMembership } from '@mui/icons-material';
 import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
 
 function App() {
   const [currentLabel, setLabel] = useState("");
-  const [text, setText] = useState("Enter text here");
+  const [text, setText] = useState("");
   const [labels, setLabels] = useState(["Someone is happy", "Someone is sad"]);
   const [highlights, setHighlights] = useState([]);
   let colors = ['yellow', 'aqua', 'pink', 'green', 'red', 'orange', 'gray'];
@@ -28,7 +27,7 @@ function App() {
     for (let i = 0; i < labels.length; i++) {
       let start = data[labels[i]][0][2][0];
       let end = data[labels[i]][0][2][1];
-      setHighlights(oldArray => [...oldArray, {highlight: [start, end], className: 'blue'}]);
+      setHighlights(oldArray => [...oldArray, {highlight: [start, end-1], className: colors[i]}]);
     }
   }
 
@@ -51,8 +50,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div class="flexbox-container">
-          <Card style={{flex:1, margin:100, width: 200, height: 600}}>
-            <CardContent style={{overflowY: 'scroll', maxHeight: 600}}>
+          <Card style={{flex:1, margin:100, width: 200, height: 600, overflowY: 'scroll'}}>
+            <CardContent style={{}}>
               <HighlightWithinTextarea
                 value={text}
                 highlight={highlights}
@@ -61,8 +60,7 @@ function App() {
             </CardContent>
           </Card>
 
-          <Card style={{flex:1, margin: 100, width: 1000}}>
-            
+          <Card style={{flex:1, margin: 100, width: 1000}}>            
             <CardActions>
               <Container>
                 <TextField

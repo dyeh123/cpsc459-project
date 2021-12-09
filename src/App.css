@@ -24,6 +24,34 @@
   color: white;
 }
 
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.aqua {
+  background-color: aqua;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.green {
+  background-color: green;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.grey {
+  background-color: greys;
+}
+
 .App-link {
   color: #61dafb;
 }
