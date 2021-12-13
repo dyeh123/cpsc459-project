@@ -33,7 +33,7 @@ function App() {
 
   async function getScores() {
     let data = {"text": text,
-    "searches": searches};
+    "labels": searches};
     const response = await fetch("https://flask.thomaswoodside.com/classify", {
       method: 'POST',
       credentials: 'same-origin',
