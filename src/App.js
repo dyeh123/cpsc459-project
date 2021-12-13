@@ -9,14 +9,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
 
 function App() {
-  const [currentLabel, setLabel] = useState("");
+  const [currentSearch, setSearch] = useState("");
   const [text, setText] = useState("");
-  const [labels, setLabels] = useState(["Someone is happy", "Someone is sad"]);
+  const [searches, setSearches] = useState(["Someone is happy", "Someone is sad"]);
   const [highlights, setHighlights] = useState([]);
   let colors = ['yellow', 'aqua', 'pink', 'green', 'red', 'orange', 'gray'];
 
-  const saveCurrentLabel = newLabel => {
-    setLabel(newLabel.target.value);
+  const saveCurrentSearch = newSearch => {
+    setSearch(newSearch.target.value);
   }
 
   const saveCurrentText = newText => {
@@ -24,16 +24,16 @@ function App() {
   }
 
   const processData = data => {
-    for (let i = 0; i < labels.length; i++) {
-      let start = data[labels[i]][0][2][0];
-      let end = data[labels[i]][0][2][1];
+    for (let i = 0; i < searches.length; i++) {
+      let start = data[searches[i]][0][2][0];
+      let end = data[searches[i]][0][2][1];
       setHighlights(oldArray => [...oldArray, {highlight: [start, end-1], className: colors[i]}]);
     }
   }
 
   async function getScores() {
     let data = {"text": text,
-    "labels": labels};
+    "searches": searches};
     const response = await fetch("https://flask.thomaswoodside.com/classify", {
       method: 'POST',
       credentials: 'same-origin',
@@ -64,24 +64,24 @@ function App() {
             <CardActions>
               <Container>
                 <TextField
-                  placeholder="Enter label here"
-                  value={currentLabel}
-                  onChange={saveCurrentLabel}
+                  placeholder="Enter search here"
+                  value={currentSearch}
+                  onChange={saveCurrentSearch}
                 >
                 </TextField>
               </Container>
-              <Button variant="contained" onClick={() => setLabels(oldArray => [...oldArray, currentLabel])}>Add Label</Button>
+              <Button variant="contained" onClick={() => setSearches(oldArray => [...oldArray, currentSearch])}>Add Search</Button>
             </CardActions>
             <CardContent>
               <Container style={{flexDirection: 'column', overflowY: 'scroll'}}>
                 {
-                labels.map((elem, index) => (
+                searches.map((elem, index) => (
                   <Button 
                   startIcon={<CircleIcon style={{fill: colors[index]}}/>} 
                   endIcon={<CloseIcon/>} 
                   variant="contained" 
                   sx={{borderRadius: 30}}
-                  onClick={() => setLabels(labels.filter(item => item !== elem))}
+                  onClick={() => setSearches(searches.filter(item => item !== elem))}
                   key={elem}
                   >
                   {elem}
