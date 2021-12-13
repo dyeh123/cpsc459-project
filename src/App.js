@@ -11,7 +11,7 @@ import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
 function App() {
   const [currentSearch, setSearch] = useState("");
   const [text, setText] = useState("");
-  const [searches, setSearches] = useState(["Someone is happy", "Someone is sad"]);
+  const [searches, setSearches] = useState([]);
   const [highlights, setHighlights] = useState([]);
   let colors = ['yellow', 'aqua', 'pink', 'green', 'red', 'orange', 'gray'];
 
@@ -78,10 +78,18 @@ function App() {
                 searches.map((elem, index) => (
                   <Button 
                   startIcon={<CircleIcon style={{fill: colors[index]}}/>} 
-                  endIcon={<CloseIcon/>} 
+                  endIcon={
+                    <CloseIcon
+                      onClick={
+                        () => {
+                          setSearches(searches.filter(item => item !== elem));
+                          setHighlights(highlights.filter(item => item.className !== colors[index]));
+                        }
+                      }
+                    />
+                  } 
                   variant="contained" 
                   sx={{borderRadius: 30}}
-                  onClick={() => setSearches(searches.filter(item => item !== elem))}
                   key={elem}
                   >
                   {elem}
