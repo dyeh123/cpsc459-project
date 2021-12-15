@@ -1,8 +1,7 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { Container, Typography, Paper, Card, CardContent, CardActions, Grid } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +12,39 @@ function App() {
   const [text, setText] = useState("");
   const [searches, setSearches] = useState([]);
   const [highlights, setHighlights] = useState([]);
+  let highlightPointers = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  
   let colors = ['yellow', 'aqua', 'pink', 'green', 'red', 'orange', 'gray'];
+
+  const YellowHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[0] }} ref={highlightPointers[0]}>{props.children}</mark>;
+  };
+
+  const AquaHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[1] }} ref={highlightPointers[1]}>{props.children}</mark>;
+  };
+
+  const PinkHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[2] }} ref={highlightPointers[2]}>{props.children}</mark>;
+  };
+
+  const GreenHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[3] }} ref={highlightPointers[3]}>{props.children}</mark>;
+  };
+
+  const RedHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[4] }} ref={highlightPointers[4]}>{props.children}</mark>;
+  };
+
+  const OrangeHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[5] }} ref={highlightPointers[5]}>{props.children}</mark>;
+  };
+
+  const GrayHighlight = (props) => {
+    return <mark style={{ backgroundColor: colors[6] }} ref={highlightPointers[6]}>{props.children}</mark>;
+  };
+
+  const highlightComponents = [YellowHighlight, AquaHighlight, PinkHighlight, GreenHighlight, RedHighlight, OrangeHighlight, GrayHighlight];
 
   const saveCurrentSearch = newSearch => {
     setSearch(newSearch.target.value);
@@ -27,8 +58,12 @@ function App() {
     for (let i = 0; i < searches.length; i++) {
       let start = data[searches[i]][0][2][0];
       let end = data[searches[i]][0][2][1];
-      setHighlights(oldArray => [...oldArray, {highlight: [start, end-1], className: colors[i]}]);
+      setHighlights(oldArray => [...oldArray, {component: highlightComponents[i], highlight: [start, end-1]}]);
     }
+  }
+
+  const scrollToHighlight = (highlightRef) => {
+    highlightRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
   async function getScores() {
@@ -70,7 +105,7 @@ function App() {
                 >
                 </TextField>
               </Container>
-              <Button variant="contained" onClick={() => setSearches(oldArray => [...oldArray, currentSearch])}>Add Search</Button>
+              <Button variant="contained" onClick={() => {setSearches(oldArray => [...oldArray, currentSearch]); setSearch("");}}>Add Search</Button>
             </CardActions>
             <CardContent>
               <Container style={{flexDirection: 'column', overflowY: 'scroll'}}>
@@ -87,7 +122,8 @@ function App() {
                         }
                       }
                     />
-                  } 
+                  }
+                  onClick={() => {scrollToHighlight(highlightPointers[index])}} 
                   variant="contained" 
                   sx={{borderRadius: 30}}
                   key={elem}
@@ -105,7 +141,6 @@ function App() {
               </Button>
             </CardContent>
           </Card>
-          
         </div>
       </header>
     </div>
