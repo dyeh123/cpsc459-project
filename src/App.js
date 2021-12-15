@@ -51,6 +51,8 @@ function App() {
   }
 
   const saveCurrentText = newText => {
+    if (newText != text)
+      setHighlights([]);
     setText(newText);
   }
 
