@@ -62,6 +62,12 @@
   flex: 1;
 }
 
+.clear-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
