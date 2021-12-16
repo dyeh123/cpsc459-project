@@ -142,7 +142,7 @@ function App() {
                     alert("You have reached the search limit. Please delete a search to allow another.");
                   } else if (searches.includes(currentSearch)) {
                     alert("You already have this query!");
-                  } else if (currentSearch == "") {
+                  } else if (currentSearch === "") {
                     alert("Please enter a query.");
                   } else {
                     setSearches(oldArray => [...oldArray, currentSearch]);
@@ -162,8 +162,8 @@ function App() {
                   endIcon={
                     <CloseIcon
                       onClick={
-                        () => {
-                          console.log(highlights);
+                        (e) => {
+                          e.stopPropagation();
                           setSearches(searches.filter(item => item !== elem));
                           setHighlights([]);
                         }
@@ -184,7 +184,7 @@ function App() {
               variant="contained"
               onClick={() => {
                 setHighlights([]);
-                getScores().then(data => {console.log(data); processData(data);})
+                getScores().then(data => {processData(data);})
               }}
               >
               Run
