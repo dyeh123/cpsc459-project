@@ -2,7 +2,7 @@ import './App.css';
 import { useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
-import { Container, Typography, Paper, Card, CardContent, CardActions, Grid } from '@mui/material';
+import { Container, Typography, Card, CardContent, CardActions } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
 import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
@@ -51,7 +51,7 @@ function App() {
   }
 
   const saveCurrentText = newText => {
-    if (newText != text)
+    if (newText !== text)
       setHighlights([]);
     setText(newText);
   }
@@ -61,14 +61,6 @@ function App() {
       let start = data[searches[i]][0][2][0];
       let end = data[searches[i]][0][2][1];
       setHighlights(oldArray => [...oldArray, {component: highlightComponents[i], highlight: [start, end-1], className: colors[i]}]);
-    }
-  }
-
-  const refreshHighlights = () => {
-    let updatedHighlights = [...highlights];
-    for (let i = 0; i < searches.length; i++) {
-      updatedHighlights[i].component = highlightComponents[i];
-      setHighlights(updatedHighlights);
     }
   }
 
@@ -126,6 +118,7 @@ function App() {
             variant="contained"
             onClick={() => {
               setSearches([]);
+              setSearch("");
               setHighlights([]);
             }}
             >
@@ -149,6 +142,8 @@ function App() {
                     alert("You have reached the search limit. Please delete a search to allow another.");
                   } else if (searches.includes(currentSearch)) {
                     alert("You already have this query!");
+                  } else if (currentSearch == "") {
+                    alert("Please enter a query.");
                   } else {
                     setSearches(oldArray => [...oldArray, currentSearch]);
                   }
@@ -170,9 +165,7 @@ function App() {
                         () => {
                           console.log(highlights);
                           setSearches(searches.filter(item => item !== elem));
-                          setHighlights(highlights.filter(item => item.className !== colors[index]));
-                          //refreshHighlights();
-                          //console.log(highlights);
+                          setHighlights([]);
                         }
                       }
                     />
