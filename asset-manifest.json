@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/cpsc459-project/static/css/main.6e87748b.chunk.css",
-    "main.js": "/cpsc459-project/static/js/main.efb6c8d4.chunk.js",
-    "main.js.map": "/cpsc459-project/static/js/main.efb6c8d4.chunk.js.map",
+    "main.js": "/cpsc459-project/static/js/main.20fa6150.chunk.js",
+    "main.js.map": "/cpsc459-project/static/js/main.20fa6150.chunk.js.map",
     "runtime-main.js": "/cpsc459-project/static/js/runtime-main.fa180f9c.js",
     "runtime-main.js.map": "/cpsc459-project/static/js/runtime-main.fa180f9c.js.map",
     "static/js/2.86ace835.chunk.js": "/cpsc459-project/static/js/2.86ace835.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.fa180f9c.js",
     "static/js/2.86ace835.chunk.js",
     "static/css/main.6e87748b.chunk.css",
-    "static/js/main.efb6c8d4.chunk.js"
+    "static/js/main.20fa6150.chunk.js"
   ]
 }
